@@ -155,7 +155,10 @@ hv_sites <- hv_locations_all(hv_token) %>%
 
 message(paste("....Collation Step Update:", "successfully pulled in hv_sites object from HydroVu"))
 
-sites <- c("pbd")
+sites <- c("pbd",
+           "bellvue", "salyer", "udall",
+           "riverbend", "cottonwood", "elc",
+           "archery", "riverbluffs")
 
 message(paste("....Collation Step Update:", "Attempting to pull data from HydroVu API"))
 walk(sites,
@@ -225,7 +228,7 @@ tidy_data <- all_data_with_context %>%
 
 # Read in threshold and sensor notes ----
 sensor_thresholds_file <- "data/qaqc/sensor_spec_thresholds.yml"
-seasonal_thresholds_file <- "data/qaqc/uclp_dashboard_seasonal_thresholds20260323-T175010Z.parquet"
+seasonal_thresholds_file <- "data/qaqc/all_seasonal_thresholds20260330-T175010Z.parquet"
 fc_field_notes_file <- "data/qaqc/fc_field_notes_formatted.rds"
 
 sensor_thresholds <- read_yaml(sensor_thresholds_file)
