@@ -129,7 +129,9 @@ staging_directory = tempdir()
 
 # Read in credentials from environment variables (GitHub Secrets)
 client_id <- Sys.getenv("HYDROVU_CLIENT_ID")
+#client_id <- read_yaml(file = "creds/HydroVuCreds.yml")$client
 client_secret <- Sys.getenv("HYDROVU_CLIENT_SECRET")
+#client_secret <- read_yaml(file = "creds/HydroVuCreds.yml")$secret
 # Check if credentials are available
 if(client_id == "" || client_secret == "") {
   stop("HydroVu credentials not found. Please check GitHub Secrets.")
@@ -186,8 +188,11 @@ message(paste("....Collation Step Update:", "successfully pulled and munged Hydr
 source(file = here("R", "pull_contrail_api.R"))
 
 contrail_un <- Sys.getenv("CONTRAIL_CLIENT_ID")
+#contrail_un <- read_yaml(file = "creds/ContrailCreds.yml")$username
 contrail_pw <- Sys.getenv("CONTRAIL_CLIENT_SECRET")
+#contrail_pw <- read_yaml(file = "creds/ContrailCreds.yml")$password
 contrail_url <- Sys.getenv("CONTRAIL_CLIENT_URL")
+#contrail_url <- read_yaml(file = "creds/ContrailCreds.yml")$login_url
 
 contrail_data <- pull_contrail_api(
   start_DT = denver_start_DT,
@@ -237,6 +242,7 @@ season_thresholds <- read_parquet(seasonal_thresholds_file)
 # Pulling in the data from mWater (where we record our field notes)
 message(paste("Collation Step:", "getting mWater creds"))
 mWater_creds <- Sys.getenv("MWATER_SECRET")
+#mWater_creds <- read_yaml(file = "creds/mWaterCreds.yml")
 mWater_data <- ross.wq.tools::load_mWater(creds = mWater_creds)
 
 fc_field_notes <- read_rds(fc_field_notes_file)
@@ -347,7 +353,7 @@ for (chunk_idx in seq_along(intrasensor_data_chunks)) {
 
 # Network Check and Final Flags
 site_order_list <- list(
-  clp = c("joei", "cbri", "chd", "pfal", "pbr_fc", "pman", "pbd",
+  clp = c("joei", "cbri", "chd", "pfal", "pbr_fc", "pman_fc", "pbd",
           "bellvue", "salyer", "udall", "riverbend", "cottonwood", "elc",
           "archery", "riverbluffs"),
   sfm = c("sfm")
